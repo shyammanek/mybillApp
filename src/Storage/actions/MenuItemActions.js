@@ -55,7 +55,7 @@ export default (realmInstance: any): MenuItemModelTypeInterface => {
         const MenuItem = realmInstance.objects(
           MenuItemModel.getMenuItemModalName(),
         );
-        // console.log('====================================');
+        console.log('====================================');
         // console.log('MenuItem Actionms fiel: ', MenuItem);
         return MenuItem;
       } catch (e) {

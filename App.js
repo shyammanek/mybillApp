@@ -6,6 +6,8 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HistoryScreen from './src/Screens/History';
 import AddMenuItemScreen from './src/Screens/AddMenuItemScreen';
 import CreateOrderScreen from './src/Screens/CreateOrderScreen';
+import IoniIcons from 'react-native-vector-icons/Ionicons';
+
 
 import * as Database from './src/Storage/Database';
 
@@ -31,6 +33,7 @@ export default class App extends Component {
             labelStyle: {
               fontSize: 16,
             },
+
             style: {
               backgroundColor: '#ffffff',
             },
@@ -40,6 +43,9 @@ export default class App extends Component {
             component={HomeScreen}
             options={{
               tabBarLabel: 'Home',
+              tabBarIcon: ({color, size}) => (
+                <IoniIcons name="home" color={'#Faa'} size={18} />
+              ),
             }}
           />
           <Tab.Screen

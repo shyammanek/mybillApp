@@ -4,8 +4,8 @@ import createHistoryAction from './actions/HistoryAcitons';
 import HistoryModel from './models/HistoryModel';
 import OrderModel from './models/OderModel';
 // import type {OrderActionInterface} from './actions/OrderActions';
-// import createOrderAction from './actions/OrderActions';
-import {OrderActionInterface, createOrderAction} from './actions/OderActions';
+import createOrderAction from './actions/OderActions';
+import {OrderActionInterface} from './actions/OderActions';
 
 import type {MenuItemActionInterface} from './actions/MenuItemActions';
 import createMenuItemAction from './actions/MenuItemActions';
