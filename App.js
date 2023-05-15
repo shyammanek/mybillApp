@@ -19,6 +19,7 @@ import {
   NavigationContainer,
   useNavigationContainerRef,
 } from '@react-navigation/native';
+import Profile from './src/Screens/Profile';
 
 export default class App extends Component {
   
@@ -27,9 +28,10 @@ export default class App extends Component {
       <NavigationContainer>
         <Tab.Navigator
           initialRouteName="AddMenuItemScreen"
+
           tabBarOptions={{
             activeTintColor: '#000000',
-            inactiveTintColor: '#999999',
+            inactiveTintColor: '#444',
             labelStyle: {
               fontSize: 16,
             },
@@ -65,9 +67,25 @@ export default class App extends Component {
           <Tab.Screen
             name="CreateOrderScreen"
             options={{
-              tabBarLabel: 'Create Order',
+              tabBarLabel: 'Order',
+              ...{
+                tabBarIcon: ({color, size}) => (
+                  <IoniIcons name="create" color={'#Faa'} size={18} />
+                ),
+              },
+
             }}
             component={CreateOrderScreen}
+          />
+          <Tab.Screen
+            name="Profile"
+            options={{
+              tabBarLabel: 'Profile',
+              TabBarIcon: ({color, size}) => (
+                <IoniIcons name="person" color={'#Faa'} size={18} />
+              ),
+            }}
+            component={Profile}
           />
         </Tab.Navigator>
       </NavigationContainer>

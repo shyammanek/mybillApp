@@ -129,6 +129,14 @@ android {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
+        sourceSets {
+            main {
+                assets {
+                    include '**/*.ttf', '**/*.otf'
+                    srcDirs = ['src/main/assets/fonts']
+            }
+            }
+        }
     }
 
     // applicationVariants are e.g. debug, release
