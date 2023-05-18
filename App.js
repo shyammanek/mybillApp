@@ -28,16 +28,17 @@ export default class App extends Component {
       <NavigationContainer>
         <Tab.Navigator
           initialRouteName="AddMenuItemScreen"
-
-          tabBarOptions={{
-            activeTintColor: '#000000',
-            inactiveTintColor: '#444',
-            labelStyle: {
+          screenOptions={{
+            tabBarActiveTintColor: '#000000',
+            tabBarInactiveTintColor: '#444',
+            tabBarLabelStyle: {
               fontSize: 16,
-            },
-
-            style: {
-              backgroundColor: '#ffffff',
+              fontWeight: '600',
+            },       
+            tabBarStyle: {
+              backgroundColor: '#FFF',
+              fontSize: 16,
+              fontWeight: '600',
             },
           }}>
           <Tab.Screen
