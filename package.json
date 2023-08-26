@@ -12,7 +12,6 @@
     "delete:NodeModules": "rm -rf node_modules",
     "delete:Cache": "rm -rf $TMPDIR/react-* && rm -rf $TMPDIR/haste-* && rm -rf $TMPDIR/metro-* && rm -rf $TMPDIR/metro-cache-* && rm -rf $TMPDIR/metro-*.sock && rm -rf $TMPDIR/incremental-*",
     "delete:Android": "cd android && ./gradlew clean && cd .."
-    
   },
   "dependencies": {
     "@pipechela/tp-react-native-bluetooth-printer": "^1.0.6",
@@ -31,6 +30,8 @@
     "react-native-safe-area-context": "^4.5.2",
     "react-native-screens": "^3.20.0",
     "react-native-svg": "^12.1.1",
+    "react-native-thermal-printer": "^2.3.6",
+    "react-native-thermal-receipt-printer": "^1.2.0-rc.1",
     "react-native-vector-icons": "^9.2.0",
     "realm": "^11.8.0",
     "rn-upload-image": "^1.0.3"
