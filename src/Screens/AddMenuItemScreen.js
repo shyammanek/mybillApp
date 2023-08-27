@@ -17,6 +17,7 @@ function AddMenuItemScreen() {
         price: 125,
         description: 'A lla',
         category: "category",
+        quantity: 0,
       });
     } else {
       Databse.MenuItemActions.saveMenuItem({
@@ -24,6 +25,7 @@ function AddMenuItemScreen() {
         price: parseFloat(price),
         description: 'A lla',
         category: category,
+        quantity: 0,
       });
     }
   };

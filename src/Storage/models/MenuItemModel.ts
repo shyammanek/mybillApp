@@ -33,4 +33,5 @@ export type MenuItemModelTypeInterface = {
   price: number,
   description: string,
   category: string,
+  quantity: number
 };
