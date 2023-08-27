@@ -1,17 +1,20 @@
-import {useEffect, useState} from 'react';
+import React,{useEffect, useState} from 'react';
 import {TextInput, FlatList, View, Text} from 'react-native';
 
-import * as Databse from '../Storage/Database.js';
+import * as DataBase from '../Storage/Database';
 import BillPrintExample from './BillPrintExample.js';
 
 
 export default function HistoryScreen() {
   const [orders, setOrders] = useState([]);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    getOrders();
+  }, []);
 
-  const getOrders = () => {
-    const orders = Databse.getOrders();
+  const getOrders = async () => {
+    const orders = DataBase.OrderActions.getAllOrders();
+    console.log("🚀 ~ file: History.js:18 ~ getOrders ~ orders:", orders)
     setOrders(orders);
   };
 
@@ -24,18 +27,17 @@ export default function HistoryScreen() {
 
   return (
     <>
-      {orders.length > 0 && (
+      {/* {orders && (
         <FlatList
           data={orders}
           renderItem={renderOrder}
           keyExtractor={item => item.id.toString()}
         />
-      )}
+      )} */}
 
       <View>
         <Text>HistoryScreen</Text>
-        <Text>cdkmclmlksdmkdsmklcmklsdmlckdsm</Text>
-        <BillPrintExample />
+        {/* <BillPrintExample /> */}
       </View>
     </>
   );

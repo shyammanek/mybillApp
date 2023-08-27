@@ -12,6 +12,7 @@ import {
   BluetoothTscPrinter,
 } from '@pipechela/tp-react-native-bluetooth-printer';
 
+import * as DataBase from '../Storage/Database';
 
 export default class BillPrintExample extends React.Component {
   constructor(props) {
@@ -20,13 +21,29 @@ export default class BillPrintExample extends React.Component {
       paired: [],
       loading: false,
       boundAddress: [],
-      shopname: 'kc',
-      phone: 'GLOABL.PHONE',
-      address: 'GLOABL.ADDRESS',
+
+      shopname: '',
+      name: '',
+      mobileNo: '',
+      email: '',
+      address: '',
       currentDate: '',
       profileData: {},
+      businessName: '',
+      orderData: {},
     };
   }
+
+  getOrderData = async () => {
+    try {
+      
+      const orderData = await DataBase.OrderActions.getLatestOrder();
+      console.log('====================================', orderData);
+      this.setState({orderData: orderData});
+    } catch (error) {
+      console.log('Error loading profile data:', error);
+    }
+  };
 
   loadProfileData = async () => {
     try {
@@ -70,6 +87,60 @@ export default class BillPrintExample extends React.Component {
   };
 
   printText = async (height = 1, width = 0) => {
+
+    await BluetoothEscposPrinter.printerAlign(
+      BluetoothEscposPrinter.ALIGN.CENTER,
+    );
+    await BluetoothEscposPrinter.setBlob(0);
+    await BluetoothEscposPrinter.printText(`${this.state.businessName}\n\r`, {
+      encoding: 'GBK',
+      codepage: 0,
+      widthtimes: 3,
+      heigthtimes: 3,
+      fonttype: 1,
+    });
+    await BluetoothEscposPrinter.setBlob(0);
+    await BluetoothEscposPrinter.printText(`${this.state.address}\n\r`, {
+      encoding: 'GBK',
+      codepage: 0,
+      widthtimes: 0,
+      heigthtimes: 0,
+      fonttype: 1,
+    });
+    await BluetoothEscposPrinter.printerAlign(
+      BluetoothEscposPrinter.ALIGN.LEFT,
+    );
+    await BluetoothEscposPrinter.printText('Label :Value\n\r', {});
+    await BluetoothEscposPrinter.printText('Code: xsd201909210000001\n\r', {});
+    await BluetoothEscposPrinter.printText(
+      'Date：' + dateFormat(new Date(), 'yyyy-mm-dd h:MM:ss') + '\n\r',
+      {},
+    );
+    await BluetoothEscposPrinter.printText('Number：18664896621\n\r', {});
+    await BluetoothEscposPrinter.printText(
+      '--------------------------------\n\r',
+      {},
+    );
+
+    await BluetoothEscposPrinter.printText('Amount：64000.00\n\r', {});
+    await BluetoothEscposPrinter.printText('Tax：0.00\n\r', {});
+    await BluetoothEscposPrinter.printText('Total：64000.00\n\r', {});
+    await BluetoothEscposPrinter.printText(
+      '--------------------------------\n\r',
+      {},
+    );
+    await BluetoothEscposPrinter.printerAlign(
+      BluetoothEscposPrinter.ALIGN.CENTER,
+    );
+    await BluetoothEscposPrinter.printText(
+      'Thanks for payment\n\r\n\r\n\r',
+      {},
+    );
+    await BluetoothEscposPrinter.printerAlign(
+      BluetoothEscposPrinter.ALIGN.LEFT,
+    );
+
+
     // console.log(this.state.profileData);
     // return await BluetoothEscposPrinter.printText(this.state.name, {
     //   fonttype: 0,
@@ -89,6 +160,7 @@ export default class BillPrintExample extends React.Component {
     
     await this.requestBluetoothPermission();
     this.loadProfileData();
+    this.getOrderData();
     var date = new Date().getDate(); //Current Date
     var month = new Date().getMonth() + 1; //Current Month
     var year = new Date().getFullYear(); //Current Year
@@ -133,8 +205,16 @@ export default class BillPrintExample extends React.Component {
   render() {
     return (
       <View>
+        
         <Text>Printbill</Text>
-        <Text>Connect Blutooth printer</Text>
+        
+        <Text style={{
+          fontSize: 20,
+          fontWeight: 'bold',
+          textAlign: 'center',
+          margin: 10,
+        }}>Connect Blutooth printer</Text>
+
         {this.state.paired.map((rowData, index) => {
           return (
             <TouchableOpacity
@@ -173,12 +253,13 @@ export default class BillPrintExample extends React.Component {
             </TouchableOpacity>
           );
         })}
-        <TextInput
+
+        {/* <TextInput
           label="Shop Name"
           value={this.state.shopname}
           style={{margin: 10, height: 40, borderColor: 'gray', borderWidth: 1}}
           onChangeText={text => this.setState({shopname: text})}
-        />
+        /> */}
 
         <TouchableOpacity
           style={{

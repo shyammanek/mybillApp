@@ -7,8 +7,8 @@ import HistoryScreen from './src/Screens/History';
 import AddMenuItemScreen from './src/Screens/AddMenuItemScreen';
 import CreateOrderScreen from './src/Screens/CreateOrderScreen';
 import IoniIcons from 'react-native-vector-icons/Ionicons';
-
-
+import BillPrintExample from './src/Screens/BillPrintExample';
+import PreviewScreen from './src/Screens/PreviewScreen';
 import * as Database from './src/Storage/Database';
 
 // const realm = Database.getRealmInstance();
@@ -54,6 +54,14 @@ export default class App extends Component {
           <Stack.Screen
             name="Profile"
             component={Profile}
+          />
+          <Stack.Screen
+            name="BillPrintExample"
+            component={BillPrintExample}
+          />
+          <Stack.Screen
+            name="PreviewScreen"
+            component={PreviewScreen}
           />
         </Stack.Navigator>
       </NavigationContainer>

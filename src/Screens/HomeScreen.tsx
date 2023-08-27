@@ -27,7 +27,18 @@ const HomeScreen = ({navigation}: Props) => {
 
   useEffect(() => {
     fetchMenuItems();
+
+    const unsubscribe = navigation.addListener('focus', () => {
+      fetchMenuItems();
+    });
   }, []);
+
+  const deleteMenuItem = (id: number) => {
+    DataBase.MenuItemActions.deleteMenuItem(id);
+    fetchMenuItems();
+  };
+
+
   const fetchMenuItems = () => {
     const items = DataBase.MenuItemActions.getMenuItem();
     setMenuItems(items);
@@ -83,7 +94,6 @@ const HomeScreen = ({navigation}: Props) => {
     if (selectedItems.length === 0) {
       return;
     }
-
     const orderItems = selectedItems.map(item => ({
       name: item.name,
       price: item.price,
@@ -94,6 +104,8 @@ const HomeScreen = ({navigation}: Props) => {
     DataBase.OrderActions.createOrder(orderItems);
 
     setSelectedItems([]);
+
+    navigation.navigate('PreviewScreen')
   };
 
   const _renderHeader = () => {
@@ -143,10 +155,16 @@ const HomeScreen = ({navigation}: Props) => {
     )
   }
 
+const connectToPrinter = () => {
+  console.log('connectToPrinter')
+  navigation.navigate('BillPrintExample')
+}
+
+
   const _renderButtons = () => {
     return (
       <View style={styles.buttonStyle}>
-        <CustButton style={styles.bMargin}>Connect To Printer</CustButton>
+        <CustButton style={styles.bMargin} onPress={connectToPrinter}>Connect To Printer</CustButton>
         <CustButton>Add Item</CustButton>
       </View>
     )
@@ -171,13 +189,34 @@ const HomeScreen = ({navigation}: Props) => {
               onPress={() => handleItemSelection(item)}>
               <Card.Content>
                 <View style={styles.orderItem}>
-                  <View>
+
+             
+
+                <View style={{
+                    flexDirection: 'row',
+
+                }}>
+                <TouchableOpacity 
+                style={{
+                  alignSelf: 'flex-start',
+                  marginTop: 10,
+                  marginRight: 10,
+                  // marginLeft: 10
+                }}
+                onPress={() => deleteMenuItem(item.id)}>
+                <MatIcon name="delete" size={25} color={'red'} />
+                <Text>Delete</Text>
+              </TouchableOpacity>
+
+              <View> 
                     <Title>{item.name}</Title>
                     <View style={styles.orderButtons}>
                       <CustText paddingRight={6}>{item.category}</CustText>
                       <CustText>{item.id}</CustText>
                     </View>
+                    </View>
                   </View>
+
                   <View style={styles.orderRtContent}>
                     <Title>Rs: {item.price}</Title>
                     <View style={styles.orderButtons}>
@@ -206,6 +245,7 @@ const HomeScreen = ({navigation}: Props) => {
           Total:- <Text style={styles.totalPriceValue}>{totalPrice}</Text>
         </Text>
         <Button
+          style={styles.connect}
           title="Create Order"
           onPress={handleCreateOrder}
           disabled={isSubmitDisabled}
@@ -218,7 +258,7 @@ const HomeScreen = ({navigation}: Props) => {
     <View style={styles.main}>
       <View style={styles.header}>
         <CustText fontSize={20} bold>MyBill</CustText>
-        <CustButton style={styles.connect}>Connect To Printer</CustButton>
+        <CustButton style={styles.connect} onPress={connectToPrinter} >Connect To Printer</CustButton>
       </View>
       {_renderContent()}
       {_renderFooter()}

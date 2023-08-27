@@ -6,6 +6,7 @@ export type MenuItemActionInterface = {
     MenuItemResponse: MenuItemModelTypeInterface,
   ) => Promise<MenuItemModel>,
   getMenuItem: () => MenuItemModelTypeInterface[],
+  deleteMenuItem: (id: number) => boolean,
 };
 
 export default (realmInstance: any): MenuItemModelTypeInterface => {
@@ -62,5 +63,18 @@ export default (realmInstance: any): MenuItemModelTypeInterface => {
         return undefined;
       }
     },
+    deleteMenuItem: (id: number): boolean => {
+      try {
+        const MenuItem = realmInstance.objects(
+          MenuItemModel.getMenuItemModalName(),
+        );
+        realmInstance.write(() => {
+          realmInstance.delete(MenuItem.filtered(`id=${id}`));
+        });
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
   };
 };

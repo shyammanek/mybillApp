@@ -62,8 +62,11 @@ import type { OrderModelTypeInterface } from '../models/OderModel';
 
 export type OrderActionInterface = {
   createOrder: (
-    menuItems: MenuItemModelTypeInterface[]
-  ) => Promise<OrderModel>,
+    menuItems: MenuItemModelTypeInterface[],
+  )
+   => Promise<OrderModel>,
+  getLatestOrder: () => OrderModelTypeInterface,
+  getAllOrders: () => OrderModelTypeInterface[],
 };
 
 export default (realmInstance: any): OrderModelTypeInterface => {
@@ -99,5 +102,13 @@ export default (realmInstance: any): OrderModelTypeInterface => {
         }
       });
     },
+    getLatestOrder: (): OrderModelTypeInterface => {
+      const orders = realmInstance.objects(OrderModel.getHistoryModalName()).sorted('createdAt', true);
+      return orders[0];
+    },
+    getAllOrders: (): OrderModelTypeInterface[] => {
+      return realmInstance.objects(OrderModel.getHistoryModalName());
+    }
+
   };
 };
