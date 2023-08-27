@@ -5,7 +5,7 @@ export type MenuItemActionInterface = {
   saveMenuItem: (
     MenuItemResponse: MenuItemModelTypeInterface,
   ) => Promise<MenuItemModel>,
-  getMenuItem: () => MenuItemModelTypeInterface,
+  getMenuItem: () => MenuItemModelTypeInterface[],
 };
 
 export default (realmInstance: any): MenuItemModelTypeInterface => {

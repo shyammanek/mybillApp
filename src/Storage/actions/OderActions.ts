@@ -80,7 +80,7 @@ export default (realmInstance: any): OrderModelTypeInterface => {
       }
 
       // Get the total price by summing up the prices of selected menu items
-      const totalPrice = menuItems.reduce((sum, item) => sum + parseFloat(item.price), 0);
+      const totalPrice = menuItems.reduce((sum, item) => sum + (parseFloat(item.price) * item.quantity), 0);
 
       return new Promise((resolve, reject) => {
         try {

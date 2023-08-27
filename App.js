@@ -14,81 +14,48 @@ import * as Database from './src/Storage/Database';
 // const realm = Database.getRealmInstance();
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
 import {
   NavigationContainer,
   useNavigationContainerRef,
 } from '@react-navigation/native';
 import Profile from './src/Screens/Profile';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 export default class App extends Component {
   
   render() {
     return (
       <NavigationContainer>
-        <Tab.Navigator
-          initialRouteName="AddMenuItemScreen"
+        <Stack.Navigator 
           screenOptions={{
-            tabBarActiveTintColor: '#000000',
-            tabBarInactiveTintColor: '#444',
-            tabBarLabelStyle: {
-              fontSize: 16,
-              fontWeight: '600',
-            },       
-            tabBarStyle: {
-              backgroundColor: '#FFF',
-              fontSize: 16,
-              fontWeight: '600',
-            },
+            headerShown: false
           }}>
-          <Tab.Screen
+          <Stack.Screen
             name="Home"
             component={HomeScreen}
-            options={{
-              tabBarLabel: 'Home',
-              tabBarIcon: ({color, size}) => (
-                <IoniIcons name="home" color={'#Faa'} size={18} />
-              ),
-            }}
           />
-          <Tab.Screen
+          <Stack.Screen
             options={{
               tabBarLabel: 'History',
             }}
             name="HistoryScreen"
             component={HistoryScreen}
           />
-          <Tab.Screen
+          <Stack.Screen
             name="AddMenuItemScreen"
-            options={{
-              tabBarLabel: 'Menu',
-            }}
             component={AddMenuItemScreen}
           />
-          <Tab.Screen
+          <Stack.Screen
             name="CreateOrderScreen"
-            options={{
-              tabBarLabel: 'Order',
-              ...{
-                tabBarIcon: ({color, size}) => (
-                  <IoniIcons name="create" color={'#Faa'} size={18} />
-                ),
-              },
-
-            }}
             component={CreateOrderScreen}
           />
-          <Tab.Screen
+          <Stack.Screen
             name="Profile"
-            options={{
-              tabBarLabel: 'Profile',
-              TabBarIcon: ({color, size}) => (
-                <IoniIcons name="person" color={'#Faa'} size={18} />
-              ),
-            }}
             component={Profile}
           />
-        </Tab.Navigator>
+        </Stack.Navigator>
       </NavigationContainer>
     );
   }
