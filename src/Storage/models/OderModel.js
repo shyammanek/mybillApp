@@ -32,4 +32,5 @@ export type OrderModelTypeInterface = {
   items: MenuItemModelTypeInterface[],
   total: number,
   createdAt: string,
+  // quantity: number,
 };

@@ -92,53 +92,65 @@ export default class BillPrintExample extends React.Component {
       BluetoothEscposPrinter.ALIGN.CENTER,
     );
     await BluetoothEscposPrinter.setBlob(0);
-    await BluetoothEscposPrinter.printText(`${this.state.businessName}\n\r`, {
+    await BluetoothEscposPrinter.printText(`${this.state.businessName}\n\r ${this.state.address}\n\r`, {
       encoding: 'GBK',
       codepage: 0,
-      widthtimes: 3,
-      heigthtimes: 3,
-      fonttype: 1,
-    });
-    await BluetoothEscposPrinter.setBlob(0);
-    await BluetoothEscposPrinter.printText(`${this.state.address}\n\r`, {
-      encoding: 'GBK',
-      codepage: 0,
-      widthtimes: 0,
-      heigthtimes: 0,
+      widthtimes: 1,
+      heigthtimes: 2,
       fonttype: 1,
     });
     await BluetoothEscposPrinter.printerAlign(
       BluetoothEscposPrinter.ALIGN.LEFT,
     );
-    await BluetoothEscposPrinter.printText('Label :Value\n\r', {});
-    await BluetoothEscposPrinter.printText('Code: xsd201909210000001\n\r', {});
-    await BluetoothEscposPrinter.printText(
-      'Date：' + dateFormat(new Date(), 'yyyy-mm-dd h:MM:ss') + '\n\r',
-      {},
-    );
-    await BluetoothEscposPrinter.printText('Number：18664896621\n\r', {});
-    await BluetoothEscposPrinter.printText(
-      '--------------------------------\n\r',
-      {},
+    this.state.orderData &&
+    this.state.orderData.items.map((item, index)  => {
+             BluetoothEscposPrinter.printText( `${index} ${item.name}: ${item.price}\n\r`, {});
+          });
+
+          this.state.orderData && BluetoothEscposPrinter.printText( `---Total--- Rs: ${this.state.orderData.total}\n\r`, {});
+
+    await BluetoothEscposPrinter.printText(`${this.state.currentDate}\n\r`, {});
+
+    await BluetoothEscposPrinter.setBlob(0);
+    // await BluetoothEscposPrinter.printText(`${this.state.address}\n\r`, {
+    //   encoding: 'GBK',
+    //   codepage: 0,
+    //   widthtimes: 0,
+    //   heigthtimes: 0,
+    //   fonttype: 1,
+    // });
+    await BluetoothEscposPrinter.printerAlign(
+      BluetoothEscposPrinter.ALIGN.LEFT,
     );
 
-    await BluetoothEscposPrinter.printText('Amount：64000.00\n\r', {});
-    await BluetoothEscposPrinter.printText('Tax：0.00\n\r', {});
-    await BluetoothEscposPrinter.printText('Total：64000.00\n\r', {});
+    
     await BluetoothEscposPrinter.printText(
-      '--------------------------------\n\r',
+      'Date:' + dateFormat(new Date(), 'yyyy-mm-dd h:MM:ss') + '\n\r',
       {},
     );
-    await BluetoothEscposPrinter.printerAlign(
-      BluetoothEscposPrinter.ALIGN.CENTER,
-    );
-    await BluetoothEscposPrinter.printText(
-      'Thanks for payment\n\r\n\r\n\r',
-      {},
-    );
-    await BluetoothEscposPrinter.printerAlign(
-      BluetoothEscposPrinter.ALIGN.LEFT,
-    );
+    // await BluetoothEscposPrinter.printText('Number：18664896621\n\r', {});
+    // await BluetoothEscposPrinter.printText(
+    //   '--------------------------------\n\r',
+    //   {},
+    // );
+
+    // await BluetoothEscposPrinter.printText('Amount：64000.00\n\r', {});
+    // await BluetoothEscposPrinter.printText('Tax：0.00\n\r', {});
+    // await BluetoothEscposPrinter.printText('Total：64000.00\n\r', {});
+    // await BluetoothEscposPrinter.printText(
+    //   '--------------------------------\n\r',
+    //   {},
+    // );
+    // await BluetoothEscposPrinter.printerAlign(
+    //   BluetoothEscposPrinter.ALIGN.CENTER,
+    // );
+    // await BluetoothEscposPrinter.printText(
+    //   'Thanks for payment\n\r\n\r\n\r',
+    //   {},
+    // );
+    // await BluetoothEscposPrinter.printerAlign(
+    //   BluetoothEscposPrinter.ALIGN.LEFT,
+    // );
 
 
     // console.log(this.state.profileData);
