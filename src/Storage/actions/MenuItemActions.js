@@ -20,11 +20,10 @@ export default (realmInstance: any): MenuItemModelTypeInterface => {
     saveMenuItem: async (saveMenuItemResponse: any): Promise<MenuItemModel> => {
       const {name, price, description, category} = saveMenuItemResponse;
       const lastId = MenuItemModel.getLastId(realmInstance);
-      const newId = lastId + 1;
+      const newId = (lastId || 0) + 1;
 
       return new Promise((resolve, reject) => {
         try {
-          console.log('Name: ', name, price, description, category);
           const MenuItemObject = (MenuItemModelTypeInterface = {
             id: newId,
             name: name,

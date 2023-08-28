@@ -8,7 +8,7 @@ const PreviewScreen = () => {
 
 
   const getOrderData = async () => {
-    const orderData = await DataBase.OrderActions.getLatestOrder();
+    const orderData = DataBase.OrderActions.getLatestOrder();
     console.log('====================================', orderData);
     setOrderData(orderData);
   };
@@ -27,7 +27,7 @@ const PreviewScreen = () => {
             <Text>{orderData.total}</Text>
             <Text>{orderData.date}</Text>
             <Text>{orderData.time}</Text>
-            <Text>{orderData.items}</Text>
+            {/* <Text>{orderData.items}</Text> */}
         </View>
       )}
     </View>

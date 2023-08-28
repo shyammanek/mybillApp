@@ -41,7 +41,9 @@ const HomeScreen = ({navigation}: Props) => {
 
   const fetchMenuItems = () => {
     const items = DataBase.MenuItemActions.getMenuItem();
-    setMenuItems(items);
+    if(items.length > 0) {
+      setMenuItems(items.filter(val => !val.isOrder));
+    }
   };
 
   const handleItemSelection = (item: MenuItemModelTypeInterface) => {
@@ -99,6 +101,8 @@ const HomeScreen = ({navigation}: Props) => {
       price: item.price,
       description: item.description,
       category: item.category,
+      id: item.id,
+      quantity: item.quantity
     }));
 
     DataBase.OrderActions.createOrder(orderItems);
@@ -245,7 +249,6 @@ const connectToPrinter = () => {
           Total:- <Text style={styles.totalPriceValue}>{totalPrice}</Text>
         </Text>
         <Button
-          style={styles.connect}
           title="Create Order"
           onPress={handleCreateOrder}
           disabled={isSubmitDisabled}

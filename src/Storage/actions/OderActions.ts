@@ -57,6 +57,7 @@
 
 // export default createOrderAction;
 
+import { MenuItemModelTypeInterface } from '../models/MenuItemModel';
 import OrderModel from '../models/OderModel';
 import type { OrderModelTypeInterface } from '../models/OderModel';
 
@@ -88,13 +89,15 @@ export default (realmInstance: any): OrderModelTypeInterface => {
       return new Promise((resolve, reject) => {
         try {
           realmInstance.write(() => {
+            let currentId = new Date().valueOf()
             const orderObject = {
-              items: menuItems,
+              id: currentId,
+              items: menuItems.map((val, index) => ({...val, id: currentId + index, isOrder: true})),
               total: totalPrice,
               createdAt: new Date().toISOString(),
             };
-
-            const order = realmInstance.create(OrderModel.getHistoryModalName(), orderObject);
+            console.log(orderObject)
+            const order = realmInstance.create(OrderModel.getOrderModelName(), orderObject);
             resolve(order);
           });
         } catch (error) {
@@ -103,11 +106,13 @@ export default (realmInstance: any): OrderModelTypeInterface => {
       });
     },
     getLatestOrder: (): OrderModelTypeInterface => {
-      const orders = realmInstance.objects(OrderModel.getHistoryModalName()).sorted('createdAt', true);
+      console.log(OrderModel.getOrderModelName(), "---->")
+      const orders = realmInstance.objects(OrderModel.getOrderModelName()).sorted('createdAt', true);
+      console.log(orders)
       return orders[0];
     },
     getAllOrders: (): OrderModelTypeInterface[] => {
-      return realmInstance.objects(OrderModel.getHistoryModalName());
+      return realmInstance.objects(OrderModel.getOrderModelName());
     }
 
   };

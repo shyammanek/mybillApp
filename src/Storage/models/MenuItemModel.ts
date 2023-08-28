@@ -10,6 +10,7 @@ export default class MenuItemModel extends Realm.Object {
       price: 'int',
       description: 'string',
       category: 'string',
+      isOrder: { type: 'bool', optional: true },
     },
   };
 
@@ -34,4 +35,5 @@ export type MenuItemModelTypeInterface = {
   description: string,
   category: string,
   quantity: number
+  isOrder?: boolean
 };
