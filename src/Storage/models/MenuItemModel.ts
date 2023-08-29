@@ -11,6 +11,7 @@ export default class MenuItemModel extends Realm.Object {
       description: 'string',
       category: 'string',
       isOrder: { type: 'bool', optional: true },
+      quantity: { type: 'int', optional: true },
     },
   };
 

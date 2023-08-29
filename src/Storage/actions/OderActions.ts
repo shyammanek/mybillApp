@@ -85,7 +85,7 @@ export default (realmInstance: any): OrderModelTypeInterface => {
 
       // Get the total price by summing up the prices of selected menu items
       const totalPrice = menuItems.reduce((sum, item) => sum + (parseFloat(item.price) * item.quantity), 0);
-      console.log("🚀 ~ file: OderActions.ts:88 ~ createOrder: ~ menuItems:", menuItems)
+      // console.log("🚀 ~ file: OderActions.ts:88 ~ createOrder: ~ menuItems:", menuItems)
 
       return new Promise((resolve, reject) => {
         try {
@@ -97,7 +97,6 @@ export default (realmInstance: any): OrderModelTypeInterface => {
               total: totalPrice,
               createdAt: new Date().toISOString(),
             };
-            console.log(JSON.stringify(orderObject),"lkmk")
             const order = realmInstance.create(OrderModel.getOrderModelName(), orderObject);
             resolve(order);
           });
@@ -107,9 +106,7 @@ export default (realmInstance: any): OrderModelTypeInterface => {
       });
     },
     getLatestOrder: (): OrderModelTypeInterface => {
-      console.log(OrderModel.getOrderModelName(), "---->")
       const orders = realmInstance.objects(OrderModel.getOrderModelName()).sorted('createdAt', true);
-      console.log(JSON.stringify(orders), "---->")
       return orders[0];
     },
     getAllOrders: (): OrderModelTypeInterface[] => {

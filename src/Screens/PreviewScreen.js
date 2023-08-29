@@ -82,7 +82,7 @@ const PreviewScreen = () => {
                 }}
                 key={index}>
                 <Text style={styles.tableCell}>{item.name}</Text>
-                <Text style={styles.tableCell}>{item.price}</Text>
+                <Text style={styles.tableCell}>{item.quantity}</Text>
                 <Text style={styles.tableCell}>{item.price}</Text>
 
                 <Text>{item.quantity}</Text>

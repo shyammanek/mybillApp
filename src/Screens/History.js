@@ -3,6 +3,8 @@ import {TextInput, FlatList, View, StyleSheet, Text} from 'react-native';
 
 import * as DataBase from '../Storage/Database';
 import BillPrintExample from './BillPrintExample.js';
+import moment from 'moment';
+import { SCREEN_WIDTH } from '../Utils/Constants';
 
 export default function HistoryScreen() {
   const [orders, setOrders] = useState([]);
@@ -17,45 +19,40 @@ export default function HistoryScreen() {
     setOrders(orders);
   };
 
-  const renderOrder = ({item}) => (
-    <View>
+  const _renderHeader = () => {
+    return (
+      <View style={{...styles.tableCell, marginTop: 16, backgroundColor: 'lightgray'}}>
+        <Text style={styles.tableText}>Name</Text>
+        <Text style={styles.tableText}>Price</Text>
+        <Text style={styles.tableText}>Date</Text>
+      </View>
+    )
+  }
+
+  const renderOrder = ({item}) => {
+    console.log(item, "-----")
+    return <View>
       <View
-        style={{
-          padding: 10,
-          alignItems: 'center',
-          // borderWidth: 1,
-          marginHorizontal: 24,
-          backgroundColor: '#ddd',
-        }}>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginBottom: 10,
-            borderWidth: 1,
-            marginHorizontal: 24,
-            width: 380,
-            borderRadius: 12,
-            
-          }}>
-          <Text style={styles.tableCell}>{item.items[0]?.name}</Text>
-          <Text style={styles.tableCell}>{item.total}</Text>
-          {/* <Text style={styles.tableCell}>{Date.toString(item.createdAt)}</Text> */}
-        </View>
+        style={styles.tableCell}>
+          <Text style={styles.tableText}>{item.items[0]?.name}</Text>
+          <Text style={styles.tableText}>{item.total}</Text>
+          <View>
+            <Text style={{...styles.tableText, textAlign: 'right'}}>{moment(item.createdAt).format("HH:MM a")}</Text>
+            <Text style={{...styles.tableText, textAlign: 'right'}}>{moment(item.createdAt).format("DD/MM/YYYY")}</Text>
+          </View>
       </View>
     </View>
-  );
+  };
 
   return (
     <>
       {orders && (
-        <View style={{backgroundColor: '#f2f2f2',}}>
         <FlatList
           data={orders}
+          ListHeaderComponent={_renderHeader()}
           renderItem={renderOrder}
           keyExtractor={item => item.id.toString()}
         />
-        </View>
       )}
 
       <View>
@@ -68,12 +65,23 @@ export default function HistoryScreen() {
 
 const styles = StyleSheet.create({
   tableCell: {
-    textAlign: 'center',
-    // textAlignVertical: 'center',
-    marginRight: 10,
+    flex: 1,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    flexDirection: 'row',
+    borderWidth: 1,
+    borderColor: 'green',
+    justifyContent: 'space-between',
+    marginHorizontal: 24,
+    marginBottom: 16,
+    borderRadius: 12,
+    alignItems: 'center'
+  },
+  tableText: {
     fontSize: 14,
-    padding: 15,
     fontWeight: 'bold',
+    textAlign: 'center',
+    width: (SCREEN_WIDTH - 48) * 0.25
   },
 
   Header: {

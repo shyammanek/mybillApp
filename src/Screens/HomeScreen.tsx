@@ -42,7 +42,8 @@ const HomeScreen = ({navigation}: Props) => {
   const fetchMenuItems = () => {
     const items = DataBase.MenuItemActions.getMenuItem();
     if(items.length > 0) {
-      setMenuItems(items.filter(val => !val.isOrder));
+      let newItems: MenuItemModelTypeInterface[] = JSON.parse(JSON.stringify(items))
+      setMenuItems(newItems.filter(val => !val.isOrder));
     }
   };
 
