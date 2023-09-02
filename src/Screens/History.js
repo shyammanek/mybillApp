@@ -1,14 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import {TextInput, FlatList, View, StyleSheet, Text} from 'react-native';
+import {TextInput, FlatList, View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 
 import * as DataBase from '../Storage/Database';
 import BillPrintExample from './BillPrintExample.js';
 import moment from 'moment';
 import { SCREEN_WIDTH } from '../Utils/Constants';
+import { useNavigation } from '@react-navigation/native';
+
+
 
 export default function HistoryScreen() {
   const [orders, setOrders] = useState([]);
 
+  const navigation = useNavigation();
   useEffect(() => {
     getOrders();
   }, []);
@@ -30,8 +34,11 @@ export default function HistoryScreen() {
   }
 
   const renderOrder = ({item}) => {
-    console.log(item, "-----")
-    return <View>
+    return (
+    <TouchableOpacity onPress={()=>{
+      navigation.navigate('PreviewScreen')
+    }}>
+    <View>
       <View
         style={styles.tableCell}>
           <Text style={styles.tableText}>{item.items[0]?.name}</Text>
@@ -42,6 +49,8 @@ export default function HistoryScreen() {
           </View>
       </View>
     </View>
+    </TouchableOpacity>
+    )
   };
 
   return (
@@ -54,11 +63,6 @@ export default function HistoryScreen() {
           keyExtractor={item => item.id.toString()}
         />
       )}
-
-      <View>
-        <Text>HistoryScreen</Text>
-        {/* <BillPrintExample /> */}
-      </View>
     </>
   );
 }
@@ -86,7 +90,6 @@ const styles = StyleSheet.create({
 
   Header: {
     textAlign: 'center',
-    // textAlignVertical: 'center',
     marginRight: 10,
     fontSize: 16,
     padding: 15,

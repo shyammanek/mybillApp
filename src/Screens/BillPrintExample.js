@@ -1,17 +1,14 @@
 import React, {useState} from 'react';
 import {View, Text, TouchableOpacity,TextInput, Alert,PermissionsAndroid} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {
-  Printer,
-  Printers,
-  ThermalPrinterModule,
-} from 'react-native-thermal-printer'; // This import might vary based on the actual library
+
 import {
   BluetoothManager,
   BluetoothEscposPrinter,
   BluetoothTscPrinter,
 } from '@pipechela/tp-react-native-bluetooth-printer';
 
+const GLOBAL = require('./common/Global')
 import * as DataBase from '../Storage/Database';
 
 export default class BillPrintExample extends React.Component {
@@ -36,7 +33,6 @@ export default class BillPrintExample extends React.Component {
 
   getOrderData = async () => {
     try {
-      
       const orderData = await DataBase.OrderActions.getLatestOrder();
       console.log('====================================', orderData);
       this.setState({orderData: orderData});
@@ -52,13 +48,7 @@ export default class BillPrintExample extends React.Component {
         const {name, address, businessName, mobileNo, email} =
           JSON.parse(profileData);
         this.setState({name: name, address: address, businessName: businessName, mobileNo: mobileNo, email: email})
-        // setName(name);
-        // setAddress(address);
-        // setBusinessName(businessName);
-        // setMobileNo(mobileNo);
-        // setEmail(email);
         this.setState({profileData: JSON.parse(profileData)});
-
       }
     } catch (error) {
       console.log('Error loading profile data:', error);
@@ -67,8 +57,8 @@ export default class BillPrintExample extends React.Component {
 
   requestBluetoothPermission = async () => {
     try {
-      const granted = await PermissionsAndroid.requestMultiple(
-     [   PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN,
+      const granted = await PermissionsAndroid.requestMultiple([
+        PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN,
         PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT,
         ],
         {
@@ -87,7 +77,6 @@ export default class BillPrintExample extends React.Component {
   };
 
   printText = async (height = 1, width = 0) => {
-
     await BluetoothEscposPrinter.printerAlign(
       BluetoothEscposPrinter.ALIGN.CENTER,
     );
@@ -102,14 +91,16 @@ export default class BillPrintExample extends React.Component {
     await BluetoothEscposPrinter.printerAlign(
       BluetoothEscposPrinter.ALIGN.LEFT,
     );
+    BluetoothEscposPrinter.printText( `No    Name     Qunt     Rs    \n\r`, {});
+
     this.state.orderData &&
     this.state.orderData.items.map((item, index)  => {
-             BluetoothEscposPrinter.printText( `${index} ${item.name}: ${item.price}\n\r`, {});
+             BluetoothEscposPrinter.printText( `${index+1}  ${item.name}  ${item.quantity} ${item.price}\n\r`, {});
           });
 
-          this.state.orderData && BluetoothEscposPrinter.printText( `---Total--- Rs: ${this.state.orderData.total}\n\r`, {});
+          this.state.orderData && BluetoothEscposPrinter.printText( `-----Total----- Rs: ${this.state.orderData.total}\n\r`, {});
 
-    await BluetoothEscposPrinter.printText(`${this.state.currentDate}\n\r`, {});
+    await BluetoothEscposPrinter.printText(`DateTime : ${this.state.currentDate}\n\r`, {});
 
     await BluetoothEscposPrinter.setBlob(0);
     // await BluetoothEscposPrinter.printText(`${this.state.address}\n\r`, {
@@ -217,7 +208,6 @@ export default class BillPrintExample extends React.Component {
   render() {
     return (
       <View>
-        
         <Text>Printbill</Text>
         
         <Text style={{
@@ -239,6 +229,7 @@ export default class BillPrintExample extends React.Component {
                         loading: false,
                         boundAddress: rowData.address,
                       });
+                      GLOBAL.printer_Data = rowData.address,
                       Alert.alert('Connected');
                     },
                     e => {
@@ -257,7 +248,7 @@ export default class BillPrintExample extends React.Component {
                 <Text>{rowData.name}</Text>
                 <Text>{rowData.address}</Text>
 
-                {this.state.boundAddress === rowData.address ? (
+                {GLOBAL.printer_Data === rowData.address ? (
                   <Text style={{backgroundColor: 'lightgreen'}}>Connected</Text>
                 ) : null}
 
