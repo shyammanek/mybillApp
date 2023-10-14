@@ -14,11 +14,6 @@ export type loginUserType = (value: {
 }) => Promise<UserType | undefined>;
 
 export const loginUser: loginUserType = async ({username, password}) => {
-  console.log(
-    '🚀 ~ file: authServices.ts:13 ~ constloginUser:loginUserType= ~ username:',
-    username,
-    password,
-  );
   try {
     const result = await databaseFB.ref('users/' + username).once('value');
     const data: UserType = result.val();
