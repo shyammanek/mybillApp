@@ -5,13 +5,13 @@ export default class MenuItemModel extends Realm.Object {
     name: 'MenuItem',
     primaryKey: 'id',
     properties: {
-      id: { type: 'int', optional: false },
+      id: {type: 'int', optional: false},
       name: 'string',
       price: 'int',
       description: 'string',
       category: 'string',
-      isOrder: { type: 'bool', optional: true },
-      quantity: { type: 'int', optional: true },
+      isOrder: {type: 'bool', optional: true},
+      quantity: {type: 'int', optional: true},
     },
   };
 
@@ -30,11 +30,11 @@ export default class MenuItemModel extends Realm.Object {
 }
 
 export type MenuItemModelTypeInterface = {
-  id: number,
-  name: string,
-  price: number,
-  description: string,
-  category: string,
-  quantity: number
-  isOrder?: boolean
+  id: number;
+  name: string;
+  price: number;
+  description: string;
+  category: string;
+  quantity: number;
+  isOrder?: boolean;
 };

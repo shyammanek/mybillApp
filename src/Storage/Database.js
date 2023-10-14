@@ -9,11 +9,13 @@ import {OrderActionInterface} from './actions/OderActions';
 
 import type {MenuItemActionInterface} from './actions/MenuItemActions';
 import createMenuItemAction from './actions/MenuItemActions';
+import createUserAction from './actions/UserActions';
 import MenuItemModel from './models/MenuItemModel';
+import UserModel from './models/UserModel';
 
 const realmInstance = new Realm({
   path: 'realmDb.realm',
-  schema: [HistoryModel, MenuItemModel, OrderModel],
+  schema: [HistoryModel, MenuItemModel, OrderModel, UserModel],
   schemaVersion: 1,
 });
 
@@ -34,4 +36,7 @@ export const HistoryActions: HistoryActionInterface =
 export const MenuItemActions: MenuItemActionInterface =
   createMenuItemAction(realmInstance);
 
-export const OrderActions: OrderActionInterface = createOrderAction(realmInstance);
+export const OrderActions: OrderActionInterface =
+  createOrderAction(realmInstance);
+
+export const UserActions = createUserAction(realmInstance);
